@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,8 +21,10 @@ public class Evento {
     private String nombre;
     private String descripcion;
     private String path_image;
-    @OneToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "idLocal")
     private Local local;
+
+
 
 }

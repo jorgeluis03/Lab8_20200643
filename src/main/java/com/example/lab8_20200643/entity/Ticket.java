@@ -7,15 +7,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "local")
-public class Local {
+@Table(name = "ticket")
+public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String direccion;
-    private String latitud;
-    private String longitud;
+
     @ManyToOne
-    @JoinColumn(name = "idEmpresa")
-    private Empresa empresa;
+    @JoinColumn(name = "idUsuario")
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "idTipoTicket")
+    private TipoTicketEvento tipoTicketEvento;
+
+
+
+
 }

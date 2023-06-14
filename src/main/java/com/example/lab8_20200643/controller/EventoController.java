@@ -70,28 +70,24 @@ public class EventoController {
 
     }
     @GetMapping("/eventoConTipoDeTicket/{id}")
-    public ResponseEntity<HashMap<String,Object>> ListarEventoTicket(@PathVariable("id") String idStr){
-        HashMap<String,Object> responseMap = new HashMap<>();
-        //Validar que sea un numero
-        try {
-            int id = Integer.parseInt(idStr);
-            //verificar si existe o np
-            Optional<TipoTicketEvento> tipoTicketEventoOpt =tipoTickeEventoRepository.findById(id);
-            if(tipoTicketEventoOpt.isPresent()){
-                TipoTicketEvento tipoTicketEvento = tipoTicketEventoOpt.get();
-                responseMap.put("TipoTicketEvento",tipoTicketEvento);
-                responseMap.put("resultado","Existoso");
-                return ResponseEntity.ok(responseMap);
-            }else {
-                responseMap.put("msg","TipoTicketEvento no encontrado");
-            }
+    public ResponseEntity<HashMap<String, Object>> listarEventoTicket(@PathVariable("id") String idStr) {
+        HashMap<String, Object> responseMap = new HashMap<>();
+        int id = Integer.parseInt(idStr);
+        Optional<Evento> eventoOptional = eventoRepository.findById(id);
+        if (eventoOptional.isPresent()) {
+            Evento evento = eventoOptional.get();
+            // evento.getTipoTicketEventos().size(); // Carga los tipos de ticket asociados al evento
 
-        }catch (NumberFormatException e){
-            responseMap.put("msg","El Id debe ser un numero entero positivo");
+            responseMap.put("Evento", evento);
+            responseMap.put("resultado", "Exitoso");
+            return ResponseEntity.ok(responseMap);
+        } else {
+            responseMap.put("msg", "Evento no encontrado");
+            responseMap.put("resultado", "Falla");
+            return ResponseEntity.badRequest().body(responseMap);
         }
-        responseMap.put("resultado","Falla");
-        return ResponseEntity.badRequest().body(responseMap);
     }
+
     @PutMapping("/evento")
     public ResponseEntity<HashMap<String,Object>> EditarEvento (@RequestBody Evento evento){
         HashMap<String,Object> responseMap=new HashMap<>();
